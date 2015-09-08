@@ -50,6 +50,7 @@ func (Slug) InjectQorAdmin(res *admin.Resource) {
 	for _, field := range scope.Fields() {
 		if field.Struct.Type == reflect.TypeOf(Slug{}) {
 			name := strings.TrimSuffix(field.Name, "WithSlug")
+
 			if meta := res.GetMeta(name); meta != nil {
 				meta.Type = "slug"
 			} else {
