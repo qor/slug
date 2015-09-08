@@ -41,23 +41,23 @@
       },
 
       bindEvents: function() {
-        $(document).on('slug.change', '[data-sluggable="true"]', function(evt) {
+        $(document).on('slug.change', '[data-slug="true"]', function(evt) {
           var $container = $(evt.target);
-          var $source = $container.find('[data-sluggable-role="source"]'),
-            $slug = $container.find('[data-sluggable-role="slug"]'),
-            $sync = $container.find('[data-sluggable-role="sync"]');
+          var $source = $container.find('[data-slug-role="source"]'),
+            $slug = $container.find('[data-slug-role="slug"]'),
+            $sync = $container.find('[data-slug-role="sync"]');
 
           if ($sync.is(':checked')) {
             $slug.val(StringUtils.Parameterize($source.val(), '-'))
           }
         });
 
-        $(document).on('keyup change', '[data-sluggable-role="source"]', function(evt) {
-          $(evt.target).parents('[data-sluggable="true"]').trigger('slug.change');
+        $(document).on('keyup change', '[data-slug-role="source"]', function(evt) {
+          $(evt.target).parents('[data-slug="true"]').trigger('slug.change');
         });
 
-        $(document).on('change', '[data-sluggable-role="sync"]', function(evt) {
-          $(evt.target).parents('[data-sluggable="true"]').trigger('slug.change');
+        $(document).on('change', '[data-slug-role="sync"]', function(evt) {
+          $(evt.target).parents('[data-slug="true"]').trigger('slug.change');
         });
       }
     }
