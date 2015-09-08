@@ -44,6 +44,7 @@ func (Slug) InjectQorAdmin(res *admin.Resource) {
 		for _, gopath := range strings.Split(os.Getenv("GOPATH"), ":") {
 			admin.RegisterViewPath(path.Join(gopath, "src/github.com/qor/slug/views"))
 		}
+		res.UseTheme("slug")
 	}
 
 	for _, field := range scope.Fields() {
