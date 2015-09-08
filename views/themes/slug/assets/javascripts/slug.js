@@ -30,7 +30,7 @@
         var c = cases[i];
         var got = StringUtils.Parameterize(c.in, "-");
         if (got != c.want) {
-          throw new Error('got Slug.Parameterize("' + c.in + '") = "' + got + '", want "' + c.want + '"');
+          throw new Error('got StringUtils.Parameterize("' + c.in + '") = "' + got + '", want "' + c.want + '"');
         }
       }
     };
