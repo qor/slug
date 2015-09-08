@@ -1,20 +1,33 @@
-{{$slugSuffix := "WithSlug"}}
 {{$syncSuffix := "SyncWithSlug"}}
-{{$slugMeta := .Base.GetMeta (print .Meta.Name "WithSlug") }}
-{{$slugValue := (value_of .Result $slugMeta).Slug}}
+{{$syncInputId := (printf "%v%v" .InputId $syncSuffix)}}
+{{$syncLabel := (printf "%v from %v" "Sync" .Label)}}
 
-<div class="qor-field" data-slug="true">
+{{$slugSuffix := "WithSlug"}}
+{{$slugMeta := .Base.GetMeta (print .Meta.Name $slugSuffix) }}
+{{$slugValue := (value_of .Result $slugMeta).Slug}}
+{{$slugInputId := (printf "%v%v" .InputId $slugSuffix)}}
+{{$slugInputName := (printf "%v%v" .InputName $slugSuffix)}}
+{{$slugLabel := printf "%v's %v" .Label "Slug"}}
+
+<div class="qor-slug qor-field" data-slug="true">
   <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield qor-textfield--static-label">
     <input class="mdl-textfield__input" data-slug-role="source" type="text" id="{{.InputId}}" name="{{.InputName}}" {{if .Value}}value="{{.Value}}"{{end}} {{if not (has_update_permission .Meta)}}disabled{{end}}>
     <label class="mdl-textfield__label" for="{{.InputId}}">{{dt (printf "%v.attributes.%v" .Base.ToParam .Label) .Label}}</label>
   </div>
 
   <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield qor-textfield--static-label">
-    <input class="mdl-textfield__input" data-slug-role="slug" type="text" id="{{.InputId}}{{$slugSuffix}}" name="{{.InputName}}{{$slugSuffix}}" {{if $slugValue}}value="{{$slugValue}}"{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--8-col">
+        <input class="mdl-textfield__input" data-slug-role="slug" type="text" id="{{$slugInputId}}" name="{{$slugInputName}}" {{if $slugValue}}value="{{$slugValue}}"{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
+      </div>
+      <div class="mdl-cell mdl-cell--4-col">
+        <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{$syncInputId}}">
+          <input type="checkbox" id="{{$syncInputId}}" class="mdl-checkbox__input" data-slug-role="sync" value="true" type="checkbox" {{if is_new_record .Result}}checked{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
+          <span class="mdl-checkbox__label">{{dt (printf "%v.actions.%v" .Base.ToParam $syncLabel) $syncLabel}}</span>
+        </label>
+      </div>
+    </div>
+    <label class="mdl-textfield__label" for="{{.InputId}}">{{dt (printf "%v.attributes.%v" .Base.ToParam $slugLabel) $slugLabel}}</label>
   </div>
 
-  <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{.InputId}}{{$syncSuffix}}">
-    <input type="checkbox" id="{{.InputId}}{{$syncSuffix}}" class="mdl-checkbox__input" data-slug-role="sync" value="true" type="checkbox" {{if is_new_record .Result}}checked{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
-    <span class="mdl-checkbox__label">{{t "Sync"}}</span>
-  </label>
 </div>
