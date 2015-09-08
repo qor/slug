@@ -35,7 +35,7 @@ func (slug Slug) Value() (driver.Value, error) {
 
 var injected bool
 
-func (Slug) InjectQorAdmin(res *admin.Resource) {
+func (Slug) ConfigureQorResource(res *admin.Resource) {
 	Admin := res.GetAdmin()
 	scope := Admin.Config.DB.NewScope(res.Value)
 
