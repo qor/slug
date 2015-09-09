@@ -62,11 +62,17 @@ func (Slug) ConfigureQorResource(res *admin.Resource) {
 
 			var fieldName = field.Name
 			res.AddValidator(func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
-				slug := utils.ToString(metaValues.Get(fieldName).Value)
-				if slug == "" {
-					return validations.NewError(record, fieldName, name+"'s slug can't be blank")
-				} else if strings.Contains(slug, " ") {
-					return validations.NewError(record, fieldName, name+"'s slug can't contains blank string")
+				if meta := metaValues.Get(fieldName); meta != nil {
+					slug := utils.ToString(metaValues.Get(fieldName).Value)
+					if slug == "" {
+						return validations.NewError(record, fieldName, name+"'s slug can't be blank")
+					} else if strings.Contains(slug, " ") {
+						return validations.NewError(record, fieldName, name+"'s slug can't contains blank string")
+					}
+				} else {
+					if field, ok := context.GetDB().NewScope(record).FieldByName(field.Name); ok && field.IsBlank {
+						return validations.NewError(record, fieldName, name+"'s slug can't be blank")
+					}
 				}
 				return nil
 			})
