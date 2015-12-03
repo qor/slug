@@ -78,9 +78,9 @@ func (Slug) ConfigureQorResource(res *admin.Resource) {
 			})
 
 			res.IndexAttrs(append(res.IndexAttrs(), "-"+field.Name)...)
-			res.ShowAttrs(append(res.ShowAttrs(), "-"+field.Name)...)
-			res.EditAttrs(append(res.EditAttrs(), "-"+field.Name)...)
-			res.NewAttrs(append(res.NewAttrs(), "-"+field.Name)...)
+			res.TouchShowAttrs(res.ShowAttrs(), "-"+field.Name)
+			res.EditAttrs(res.EditAttrs(), "-"+field.Name)
+			res.NewAttrs(res.NewAttrs(), "-"+field.Name)
 		}
 	}
 }
