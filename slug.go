@@ -60,7 +60,7 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 					return validations.NewError(record, fieldName, name+"'s slug can't contains blank string")
 				}
 			} else {
-				if field, ok := context.GetDB().NewScope(record).FieldByName(meta.Name); ok && field.IsBlank {
+				if field, ok := context.GetDB().NewScope(record).FieldByName(fieldName); ok && field.IsBlank {
 					return validations.NewError(record, fieldName, name+"'s slug can't be blank")
 				}
 			}
