@@ -67,9 +67,9 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 			return nil
 		})
 
-		res.IndexAttrs(append(res.IndexAttrs(), "-"+meta.Name)...)
-		res.TouchShowAttrs(res.ShowAttrs(), "-"+meta.Name)
-		res.NewAttrs(res.NewAttrs(), "-"+meta.Name)
-		res.EditAttrs(res.EditAttrs(), "-"+meta.Name)
+		res.IndexAttrs(res.IndexAttrs(), "-"+fieldName)
+		res.ShowAttrs(res.ShowAttrs(), "-"+fieldName, false)
+		res.EditAttrs(res.EditAttrs(), "-"+fieldName)
+		res.NewAttrs(res.NewAttrs(), "-"+fieldName)
 	}
 }
