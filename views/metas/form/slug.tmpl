@@ -26,7 +26,7 @@
     <div class="mdl-cell mdl-cell--4-col">
       <div class="qor-slug-actions">
         <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{$syncInputId}}">
-          <input type="checkbox" id="{{$syncInputId}}" class="mdl-checkbox__input" data-slug-role="sync" value="true" type="checkbox" {{if is_new_record .Result}}checked{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
+          <input type="checkbox" id="{{$syncInputId}}" class="mdl-checkbox__input" data-slug-role="sync" value="true" type="checkbox" {{if is_new_record .ResourceValue}}checked{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
           <span class="mdl-checkbox__label">{{dt (printf "%v.actions.%v" .BaseResource.ToParam $syncLabel) $syncLabel}}</span>
         </label>
       </div>
