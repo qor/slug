@@ -4,7 +4,7 @@
 
 {{$slugSuffix := "WithSlug"}}
 {{$slugMeta := .BaseResource.GetMeta (print .Meta.Name $slugSuffix) }}
-{{$slugValue := (value_of .ResourceValue $slugMeta).Slug}}
+{{$slugValue := (formatted_value_of .ResourceValue $slugMeta).Slug}}
 {{$slugInputId := (printf "%v%v" .InputId $slugSuffix)}}
 {{$slugInputName := (printf "%v%v" .InputName $slugSuffix)}}
 {{$slugLabel := printf "%v's %v" .Label "slug"}}
