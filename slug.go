@@ -32,8 +32,6 @@ func (slug Slug) Value() (driver.Value, error) {
 	return slug.Slug, nil
 }
 
-var injected bool
-
 func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 	if meta, ok := meta.(*admin.Meta); ok {
 		res := meta.GetBaseResource().(*admin.Resource)
