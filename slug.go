@@ -2,8 +2,6 @@ package slug
 
 import (
 	"database/sql/driver"
-	"os"
-	"path"
 	"strings"
 
 	"github.com/qor/qor"
@@ -36,9 +34,7 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 	if meta, ok := meta.(*admin.Meta); ok {
 		res := meta.GetBaseResource().(*admin.Resource)
 
-		for _, gopath := range strings.Split(os.Getenv("GOPATH"), ":") {
-			admin.RegisterViewPath(path.Join(gopath, "src/github.com/qor/slug/views"))
-		}
+		admin.RegisterViewPath("github.com/qor/slug/views")
 		res.UseTheme("slug")
 
 		name := strings.TrimSuffix(meta.Name, "WithSlug")
