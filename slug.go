@@ -11,10 +11,12 @@ import (
 	"github.com/qor/validations"
 )
 
+// Slug is a scanner, could be used as field type, then this field could be used as slug field
 type Slug struct {
 	Slug string
 }
 
+// Scan scan value into Slug
 func (slug *Slug) Scan(value interface{}) error {
 	if bytes, ok := value.([]byte); ok {
 		slug.Slug = string(bytes)
@@ -26,10 +28,12 @@ func (slug *Slug) Scan(value interface{}) error {
 	return nil
 }
 
+// Value get slug's Value
 func (slug Slug) Value() (driver.Value, error) {
 	return slug.Slug, nil
 }
 
+// ConfigureQorMeta configure slug for qor admin
 func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 	if meta, ok := meta.(*admin.Meta); ok {
 		res := meta.GetBaseResource().(*admin.Resource)
