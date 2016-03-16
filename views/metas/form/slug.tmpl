@@ -9,24 +9,23 @@
 {{$slugInputName := (printf "%v%v" .InputName $slugSuffix)}}
 {{$slugLabel := printf "%v's %v" .Label "slug"}}
 
-<div class="qor-slug qor-field" data-slug="true">
+<div class="qor-slug qor-field" data-toggle="qor.slug">
   <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield qor-textfield--static-label">
-    <input class="mdl-textfield__input" data-slug-role="source" type="text" id="{{.InputId}}" name="{{.InputName}}" {{if .Value}}value="{{.Value}}"{{end}} {{if not (has_update_permission .Meta)}}disabled{{end}}>
+    <input class="mdl-textfield__input qor-slug-input" type="text" id="{{.InputId}}" name="{{.InputName}}" {{if .Value}}value="{{.Value}}"{{end}} {{if not (has_update_permission .Meta)}}disabled{{end}}>
     <label class="mdl-textfield__label" for="{{.InputId}}">{{t (printf "%v.attributes.%v" .BaseResource.ToParam .Label) .Label}}</label>
   </div>
-
 
   <div class="mdl-grid">
     <div class="mdl-cell mdl-cell--8-col">
       <div class="mdl-textfield mdl-textfield--full-width mdl-js-textfield qor-textfield--static-label">
-        <input class="mdl-textfield__input" data-slug-role="slug" type="text" id="{{$slugInputId}}" name="{{$slugInputName}}" {{if $slugValue}}value="{{$slugValue}}"{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
+        <input class="mdl-textfield__input qor-slug-show" type="text" id="{{$slugInputId}}" name="{{$slugInputName}}" {{if $slugValue}}value="{{$slugValue}}"{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
         <label class="mdl-textfield__label" for="{{.InputId}}">{{t (printf "%v.attributes.%v" .BaseResource.ToParam $slugLabel) $slugLabel}}</label>
       </div>
     </div>
     <div class="mdl-cell mdl-cell--4-col">
       <div class="qor-slug-actions">
         <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="{{$syncInputId}}">
-          <input type="checkbox" id="{{$syncInputId}}" class="mdl-checkbox__input" data-slug-role="sync" value="true" type="checkbox" {{if is_new_record .ResourceValue}}checked{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
+          <input type="checkbox" id="{{$syncInputId}}" class="mdl-checkbox__input qor-slug-trigger" value="true" type="checkbox" {{if is_new_record .ResourceValue}}checked{{end}} {{if not (has_update_permission $slugMeta)}}disabled{{end}}>
           <span class="mdl-checkbox__label">{{t (printf "%v.actions.%v" .BaseResource.ToParam $syncLabel) $syncLabel}}</span>
         </label>
       </div>
