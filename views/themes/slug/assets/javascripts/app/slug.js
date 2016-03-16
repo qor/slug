@@ -80,6 +80,7 @@
 
       var regSpace = /[-\s]+/g;
       var regChinese = /[\u4e00-\u9fa5]/g;
+      var regSymbol = /[#!?]/g;
       var regChar;
 
       inputValue = this.$input.val();
@@ -93,7 +94,7 @@
         }.bind(this));
       }
 
-      inputValue = inputValue.replace(regChinese, '').replace(regSpace, '-');
+      inputValue = inputValue.replace(regChinese, '').replace(regSymbol, '').replace(regSpace, '-');
 
       this.$show.val(inputValue.toLowerCase());
     },
