@@ -4,8 +4,8 @@ import (
 	"database/sql/driver"
 	"strings"
 
-	"github.com/qor/qor"
 	"github.com/qor/admin"
+	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
 	"github.com/qor/qor/utils"
 	"github.com/qor/validations"
@@ -38,7 +38,7 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 	if meta, ok := meta.(*admin.Meta); ok {
 		res := meta.GetBaseResource().(*admin.Resource)
 
-		admin.RegisterViewPath("github.com/qor/slug/views")
+		res.GetAdmin().RegisterViewPath("github.com/qor/slug/views")
 		res.UseTheme("slug")
 
 		name := strings.TrimSuffix(meta.Name, "WithSlug")
