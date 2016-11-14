@@ -17,7 +17,6 @@
   var EVENT_ENABLE = 'enable.' + NAMESPACE;
   var EVENT_DISABLE = 'disable.' + NAMESPACE;
   var EVENT_CLICK = 'click.' + NAMESPACE;
-  var EVENT_CHANGE = 'change.' + NAMESPACE;
   var EVENT_KEYUP = 'keyup.' + NAMESPACE;
 
   var CLASS_INPUT = '.qor-slug-input';
@@ -34,18 +33,18 @@
     constructor: QorSlug,
 
     init: function () {
-      var $this = this.$element;
+      var $element = this.$element;
 
-      this.$show = $(CLASS_SHOW);
-      this.$input = $(CLASS_INPUT);
-      this.$trigger = $(CLASS_TRIGGER);
+      this.$show = $element.find(CLASS_SHOW);
+      this.$input = $element.find(CLASS_INPUT);
+      this.$trigger = $element.find(CLASS_TRIGGER);
 
       this.charMap = QorSlug.CHARMAP;
 
       this.needSyncSlug = this.$trigger.is(':checked');
       this.regChar = '';
 
-      _.map(this.charMap, function (num, key) {
+      window._.map(this.charMap, function (num, key) {
         this.regChar = this.regChar + key;
       }.bind(this));
 
@@ -67,7 +66,7 @@
         .off(EVENT_CLICK, CLASS_TRIGGER, $.proxy(this.click, this));
     },
 
-    click: function (e) {
+    click: function () {
       this.needSyncSlug = this.$trigger.is(':checked');
     },
 
@@ -88,7 +87,7 @@
       var char = inputValue.match(this.regChar);
 
       if (char && char.length){
-        _.each(char, function (item) {
+        window._.each(char, function (item) {
           regChar = new RegExp('[' + item + ']', 'g');
           inputValue = inputValue.replace(regChar, this.charMap[item]);
         }.bind(this));
