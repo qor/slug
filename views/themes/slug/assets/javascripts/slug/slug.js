@@ -38,6 +38,7 @@
       this.$show = $element.find(CLASS_SHOW);
       this.$input = $element.find(CLASS_INPUT);
       this.$trigger = $element.find(CLASS_TRIGGER);
+      this.originalShowValue = this.$show.val();
 
       this.charMap = QorSlug.CHARMAP;
 
@@ -68,6 +69,13 @@
 
     click: function () {
       this.needSyncSlug = this.$trigger.is(':checked');
+
+      if (this.needSyncSlug) {
+        this.change();
+      } else {
+        this.$show.val(this.originalShowValue);
+      }
+
     },
 
     change: function () {
