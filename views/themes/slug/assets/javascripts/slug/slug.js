@@ -87,7 +87,7 @@
 
       var regSpace = /[-\s]+/g;
       var regChinese = /[\u4e00-\u9fa5]/g;
-      var regSymbol = /[#!?]/g;
+      var regSymbol = /[#!?\\]/g;
       var regChar;
 
       inputValue = this.$input.val();
