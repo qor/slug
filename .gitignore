@@ -24,3 +24,5 @@ _testmain.go
 *.prof
 *.js.map
 *.css.map
+
+node_modules/
