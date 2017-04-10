@@ -42,11 +42,7 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 		res.UseTheme("slug")
 
 		name := strings.TrimSuffix(meta.Name, "WithSlug")
-		if meta := res.GetMeta(name); meta != nil {
-			meta.Type = "slug"
-		} else {
-			res.Meta(&admin.Meta{Name: name, Type: "slug"})
-		}
+		res.Meta(&admin.Meta{Name: name, Type: "slug"})
 
 		var fieldName = meta.Name
 		res.AddValidator(func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
