@@ -25,6 +25,16 @@ func (slug *Slug) Scan(value interface{}) error {
 	} else if strs, ok := value.([]string); ok {
 		slug.Slug = strs[0]
 	}
+
+	slug.Slug = strings.TrimSpace(slug.Slug)
+	elements := []string{}
+	for _, element := range strings.Split(slug.Slug, " ") {
+		if element != "" {
+			elements = append(elements, element)
+		}
+	}
+	slug.Slug = strings.Join(elements, "-")
+
 	return nil
 }
 
@@ -52,10 +62,9 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 		res.AddValidator(func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
 			if meta := metaValues.Get(fieldName); meta != nil {
 				slug := utils.ToString(metaValues.Get(fieldName).Value)
+
 				if slug == "" {
 					return validations.NewError(record, fieldName, name+"'s slug can't be blank")
-				} else if strings.Contains(slug, " ") {
-					return validations.NewError(record, fieldName, name+"'s slug can't contains blank string")
 				}
 			} else {
 				if field, ok := context.GetDB().NewScope(record).FieldByName(fieldName); ok && field.IsBlank {
