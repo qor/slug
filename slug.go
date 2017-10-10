@@ -65,7 +65,19 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 			return nil
 		})
 
-		res.IndexAttrs(res.IndexAttrs(), "-"+fieldName)
+		var attrs = res.ConvertSectionToStrings(res.IndexAttrs())
+		var hasSlug bool
+		for _, attr := range attrs {
+			if attr == fieldName {
+				hasSlug = true
+				break
+			}
+		}
+
+		if !hasSlug {
+			res.IndexAttrs(res.IndexAttrs(), "-"+fieldName)
+		}
+
 		res.ShowAttrs(res.ShowAttrs(), "-"+fieldName, false)
 		res.EditAttrs(res.EditAttrs(), "-"+fieldName)
 		res.NewAttrs(res.NewAttrs(), "-"+fieldName)
