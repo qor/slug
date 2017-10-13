@@ -41,23 +41,23 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 		res.GetAdmin().RegisterViewPath("github.com/qor/slug/views")
 		res.UseTheme("slug")
 
-		name := strings.TrimSuffix(meta.Name, "WithSlug")
-		if meta := res.GetMeta(name); meta != nil {
+		slugMetaName := meta.Name
+		fieldName := strings.TrimSuffix(meta.Name, "WithSlug")
+		if meta := res.GetMeta(fieldName); meta != nil {
 			meta.Type = "slug"
 		}
 
-		var fieldName = meta.Name
 		res.AddValidator(func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
 			if meta := metaValues.Get(fieldName); meta != nil {
 				slug := utils.ToString(metaValues.Get(fieldName).Value)
 				if slug == "" {
-					return validations.NewError(record, fieldName, name+"'s slug can't be blank")
+					return validations.NewError(record, fieldName, fieldName+"'s slug can't be blank")
 				} else if strings.Contains(slug, " ") {
-					return validations.NewError(record, fieldName, name+"'s slug can't contains blank string")
+					return validations.NewError(record, fieldName, fieldName+"'s slug can't contains blank string")
 				}
 			} else {
 				if field, ok := context.GetDB().NewScope(record).FieldByName(fieldName); ok && field.IsBlank {
-					return validations.NewError(record, fieldName, name+"'s slug can't be blank")
+					return validations.NewError(record, fieldName, fieldName+"'s slug can't be blank")
 				}
 			}
 			return nil
@@ -67,27 +67,27 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 			var attrs = res.ConvertSectionToStrings(res.IndexAttrs())
 			var hasSlug bool
 			for _, attr := range attrs {
-				if attr == fieldName {
+				if attr == slugMetaName {
 					hasSlug = true
 					break
 				}
 			}
 
 			if !hasSlug {
-				res.IndexAttrs(res.IndexAttrs(), "-"+fieldName)
+				res.IndexAttrs(res.IndexAttrs(), "-"+slugMetaName)
 			}
 		})
 
 		res.OverrideShowAttrs(func() {
-			res.ShowAttrs(res.ShowAttrs(), "-"+fieldName)
+			res.ShowAttrs(res.ShowAttrs(), "-"+slugMetaName)
 		})
 
 		res.OverrideEditAttrs(func() {
-			res.EditAttrs(res.EditAttrs(), "-"+fieldName)
+			res.EditAttrs(res.EditAttrs(), "-"+slugMetaName)
 		})
 
 		res.OverrideNewAttrs(func() {
-			res.NewAttrs(res.NewAttrs(), "-"+fieldName)
+			res.NewAttrs(res.NewAttrs(), "-"+slugMetaName)
 		})
 	}
 }
