@@ -63,21 +63,31 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 			return nil
 		})
 
-		var attrs = res.ConvertSectionToStrings(res.IndexAttrs())
-		var hasSlug bool
-		for _, attr := range attrs {
-			if attr == fieldName {
-				hasSlug = true
-				break
+		res.OverrideIndexAttrs(func() {
+			var attrs = res.ConvertSectionToStrings(res.IndexAttrs())
+			var hasSlug bool
+			for _, attr := range attrs {
+				if attr == fieldName {
+					hasSlug = true
+					break
+				}
 			}
-		}
 
-		if !hasSlug {
-			res.IndexAttrs(res.IndexAttrs(), "-"+fieldName)
-		}
+			if !hasSlug {
+				res.IndexAttrs(res.IndexAttrs(), "-"+fieldName)
+			}
+		})
 
-		res.ShowAttrs(res.ShowAttrs(), "-"+fieldName, false)
-		res.EditAttrs(res.EditAttrs(), "-"+fieldName)
-		res.NewAttrs(res.NewAttrs(), "-"+fieldName)
+		res.OverrideShowAttrs(func() {
+			res.ShowAttrs(res.ShowAttrs(), "-"+fieldName)
+		})
+
+		res.OverrideEditAttrs(func() {
+			res.EditAttrs(res.EditAttrs(), "-"+fieldName)
+		})
+
+		res.OverrideNewAttrs(func() {
+			res.NewAttrs(res.NewAttrs(), "-"+fieldName)
+		})
 	}
 }
