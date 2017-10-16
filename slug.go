@@ -48,15 +48,15 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 		}
 
 		res.AddValidator(func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
-			if meta := metaValues.Get(fieldName); meta != nil {
-				slug := utils.ToString(metaValues.Get(fieldName).Value)
+			if meta := metaValues.Get(slugMetaName); meta != nil {
+				slug := utils.ToString(metaValues.Get(slugMetaName).Value)
 				if slug == "" {
 					return validations.NewError(record, fieldName, fieldName+"'s slug can't be blank")
 				} else if strings.Contains(slug, " ") {
 					return validations.NewError(record, fieldName, fieldName+"'s slug can't contains blank string")
 				}
 			} else {
-				if field, ok := context.GetDB().NewScope(record).FieldByName(fieldName); ok && field.IsBlank {
+				if field, ok := context.GetDB().NewScope(record).FieldByName(slugMetaName); ok && field.IsBlank {
 					return validations.NewError(record, fieldName, fieldName+"'s slug can't be blank")
 				}
 			}
