@@ -2,6 +2,7 @@ package slug
 
 import (
 	"database/sql/driver"
+	"fmt"
 	"strings"
 
 	"github.com/qor/admin"
@@ -47,20 +48,23 @@ func (Slug) ConfigureQorMeta(meta resource.Metaor) {
 			meta.Type = "slug"
 		}
 
-		res.AddValidator(func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
-			if meta := metaValues.Get(slugMetaName); meta != nil {
-				slug := utils.ToString(metaValues.Get(slugMetaName).Value)
-				if slug == "" {
-					return validations.NewError(record, fieldName, fieldName+"'s slug can't be blank")
-				} else if strings.Contains(slug, " ") {
-					return validations.NewError(record, fieldName, fieldName+"'s slug can't contains blank string")
+		res.AddValidator(&resource.Validator{
+			Name: fmt.Sprintf("%v-slug-validator", fieldName),
+			Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+				if meta := metaValues.Get(slugMetaName); meta != nil {
+					slug := utils.ToString(metaValues.Get(slugMetaName).Value)
+					if slug == "" {
+						return validations.NewError(record, fieldName, fieldName+"'s slug can't be blank")
+					} else if strings.Contains(slug, " ") {
+						return validations.NewError(record, fieldName, fieldName+"'s slug can't contains blank string")
+					}
+				} else {
+					if field, ok := context.GetDB().NewScope(record).FieldByName(slugMetaName); ok && field.IsBlank {
+						return validations.NewError(record, fieldName, fieldName+"'s slug can't be blank")
+					}
 				}
-			} else {
-				if field, ok := context.GetDB().NewScope(record).FieldByName(slugMetaName); ok && field.IsBlank {
-					return validations.NewError(record, fieldName, fieldName+"'s slug can't be blank")
-				}
-			}
-			return nil
+				return nil
+			},
 		})
 
 		res.OverrideIndexAttrs(func() {
